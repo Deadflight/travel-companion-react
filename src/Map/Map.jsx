@@ -3,7 +3,7 @@ import { Paper, Typography, useMediaQuery } from '@material-ui/core'
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined'
 import { Rating } from '@material-ui/lab'
 import useStyles from './MapStyles'
-import SnezyStyles from './SnezyStyles'
+import SnazzyStyles from './SnazzyStyles'
 
 const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, weatherData}) => {
   const classes = useStyles();
@@ -17,7 +17,7 @@ const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, w
         center={coordinates}
         defaultZoom={14}
         margin={[50,50,50,50]}
-        options={{ disableDefaultUI: true, zoomControl: true, styles: SnezyStyles }}
+        options={{ disableDefaultUI: true, zoomControl: true, styles: SnazzyStyles }}
         onChange={(e) => {
           setCoordinates({          
             lat: e.center.lat,

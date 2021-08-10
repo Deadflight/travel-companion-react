@@ -1,4 +1,4 @@
-export const SnezyStyles = [
+export default [
   {
       "elementType": "labels",
       "stylers": [
