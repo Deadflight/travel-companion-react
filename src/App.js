@@ -52,7 +52,7 @@ const App = () => {
           setIsLoading(false);
       });
     }
-  },[type,bounds]);
+  },[type,bounds,coordinates.lng,coordinates.lat]);
 
   return (
     <>
