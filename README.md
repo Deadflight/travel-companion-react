@@ -1,4 +1,4 @@
-#[Live Site](https://travelcompaniondeadflight.netlify.app/)
+[Live Site](https://travelcompaniondeadflight.netlify.app/)
 
 # Getting Started with Create React App
 
