@@ -4,6 +4,16 @@ import List from './List/List'
 import Map from './Map/Map'
 import { CssBaseline, Grid } from '@material-ui/core'
 import { getPlacesData, getWeatherData } from './api'
+import { ThemeProvider, createTheme } from '@material-ui/core/styles'
+import { grey, blueGrey  } from '@material-ui/core/colors'
+
+const theme = createTheme({
+  dark: {
+    text: grey[50],
+    input: blueGrey[50],
+    bg: '#2c3e50'
+  }
+});
 
 const App = () => {
   const [places, setPlaces] = useState([]);
@@ -47,7 +57,8 @@ const App = () => {
   return (
     <>
       <CssBaseline/>
-      <Header setCoordinates={setCoordinates} />
+      <ThemeProvider theme={theme}>
+      <Header setCoordinates={setCoordinates}/>
       <Grid container spacing={3} style={{with:'100%'}}>
         <Grid item xs={12} md={4}>
           <List 
@@ -58,10 +69,9 @@ const App = () => {
             setType={setType}
             rating={rating}
             setRating={setRating}
-
           />
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Map
             setCoordinates={setCoordinates}
             setBounds={setBounds}
@@ -72,6 +82,7 @@ const App = () => {
           />
         </Grid>
       </Grid>
+      </ThemeProvider>
     </>
   )
 }

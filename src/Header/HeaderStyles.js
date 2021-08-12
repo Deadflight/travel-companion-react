@@ -1,6 +1,10 @@
 import { alpha, makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+  danger: {
+    backgroundColor: theme.dark.bg,
+    color: theme.dark.text
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
