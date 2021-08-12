@@ -36,7 +36,7 @@ const App = () => {
   useEffect(() => {
     const filteredPlaces = places?.filter((place) => place.rating > rating);
     setFilteredPlaces(filteredPlaces);
-  }, [rating])
+  }, [rating,places])
 
   useEffect(() => {
     //console.log(coordinates, bounds);

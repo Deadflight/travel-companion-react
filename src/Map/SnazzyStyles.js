@@ -1,4 +1,4 @@
-export default [
+const SnazzyStyles = [
     {
         "elementType": "geometry",
         "stylers": [
@@ -136,3 +136,5 @@ export default [
         ]
     }
 ]
+
+export default SnazzyStyles
