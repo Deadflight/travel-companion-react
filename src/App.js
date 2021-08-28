@@ -1,70 +1,74 @@
-import React, { useEffect, useState } from 'react'
-import Header from './Header/Header'
-import List from './List/List'
-import Map from './Map/Map'
-import { CssBaseline, Grid } from '@material-ui/core'
-import { getPlacesData, getWeatherData } from './api'
-import { ThemeProvider, createTheme } from '@material-ui/core/styles'
-import { grey, blueGrey  } from '@material-ui/core/colors'
+import React, { useState, useEffect } from 'react';
+import { CssBaseline, Grid } from '@material-ui/core';
 
-const theme = createTheme({
-  dark: {
-    text: grey[50],
-    input: blueGrey[50],
-    bg: '#2c3e50'
-  }
-});
+import { getPlacesData, getWeatherData } from './api/index.js';
+import Header from './components/Header/Header';
+import List from './components/List/List';
+import Map from './components/Map/Map';
 
 const App = () => {
-  const [places, setPlaces] = useState([]);
-  const [weatherData, setWeatherData] = useState([])
-  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0});
-  const [bounds, setBounds] = useState({});
-  const [childClicked, setChildClicked] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState('restaurants');
   const [rating, setRating] = useState('');
+
+  const [coords, setCoords] = useState({});
+  const [bounds, setBounds] = useState(null);
+
+  const [weatherData, setWeatherData] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [places, setPlaces] = useState([]);
+
+  const [autocomplete, setAutocomplete] = useState(null);
+  const [childClicked, setChildClicked] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
-      setCoordinates({lat: latitude, lng: longitude});
-    })
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+      setCoords({ lat: latitude, lng: longitude });
+    });
   }, []);
 
-  //Filter Places
   useEffect(() => {
-    const filteredPlaces = places?.filter((place) => place.rating > rating);
-    setFilteredPlaces(filteredPlaces);
-  }, [rating])
+    const filtered = places.filter((place) => Number(place.rating) > rating);
+
+    setFilteredPlaces(filtered);
+  }, [rating]);
 
   useEffect(() => {
-    //console.log(coordinates, bounds);
-    if(bounds.sw && bounds.ne){
+    if (bounds) {
       setIsLoading(true);
-      getWeatherData(coordinates.lat, coordinates.lng)
-        .then((data) => setWeatherData(data))
-      getPlacesData(type, bounds.ne, bounds.sw)
+
+      getWeatherData(coords.lat, coords.lng)
+        .then((data) => setWeatherData(data));
+
+      getPlacesData(type, bounds.sw, bounds.ne)
         .then((data) => {
-          //console.log(data);
-          setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
           setFilteredPlaces([]);
+          setRating('');
           setIsLoading(false);
-      });
+        });
     }
-  },[type,bounds]);
+  }, [bounds, type]);
+
+  const onLoad = (autoC) => setAutocomplete(autoC);
+
+  const onPlaceChanged = () => {
+    const lat = autocomplete.getPlace().geometry.location.lat();
+    const lng = autocomplete.getPlace().geometry.location.lng();
+
+    setCoords({ lat, lng });
+  };
 
   return (
     <>
-      <CssBaseline/>
-      <ThemeProvider theme={theme}>
-      <Header setCoordinates={setCoordinates}/>
-      <Grid container spacing={3} style={{with:'100%'}}>
+      <CssBaseline />
+      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} />
+      <Grid container spacing={3} style={{ width: '100%' }}>
         <Grid item xs={12} md={4}>
-          <List 
-            places={filteredPlaces?.length ? filteredPlaces : places} 
-            childClicked={childClicked} 
+          <List
             isLoading={isLoading}
+            childClicked={childClicked}
+            places={filteredPlaces.length ? filteredPlaces : places}
             type={type}
             setType={setType}
             rating={rating}
@@ -73,19 +77,17 @@ const App = () => {
         </Grid>
         <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Map
-            setCoordinates={setCoordinates}
-            setBounds={setBounds}
-            coordinates={coordinates}
-            places={filteredPlaces?.length ? filteredPlaces : places} 
             setChildClicked={setChildClicked}
+            setBounds={setBounds}
+            setCoords={setCoords}
+            coords={coords}
+            places={filteredPlaces.length ? filteredPlaces : places}
             weatherData={weatherData}
           />
         </Grid>
       </Grid>
-      </ThemeProvider>
     </>
-  )
-}
+  );
+};
 
-
-export default App
+export default App;
