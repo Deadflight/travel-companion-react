@@ -5,6 +5,7 @@ import { getPlacesData, getWeatherData } from './api/index.js';
 import Header from './components/Header/Header';
 import List from './components/List/List';
 import Map from './components/Map/Map';
+import {Helmet} from "react-helmet";
 
 const App = () => {
   const [type, setType] = useState('restaurants');
@@ -62,7 +63,15 @@ const App = () => {
   return (
     <>
       <CssBaseline />
+      <Helmet>
+        <title>Travel Companion</title>
+        <meta property='og:title' content='React Travel Companion'/>
+        <meta name="description" content="React Travel Companion" />
+        <meta property='og:image' content='https://github.com/Deadflight/travel-companion-react/tree/main/src/assets/travel.PNG'/>
+        <meta property='og:url' content='https://travelcompaniondeadflight.netlify.app/'/>      
+      </Helmet>
       <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} />
+      
       <Grid container spacing={3} style={{ width: '100%' }}>
         <Grid item xs={12} md={4}>
           <List
