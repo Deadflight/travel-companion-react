@@ -69,6 +69,7 @@ const App = () => {
         <meta name="description" content="React Travel Companion" />
         <meta property='og:url' content='https://travelcompaniondeadflight.netlify.app/'/>
         <meta property='og:image' content='https://travelcompaniondeadflight.netlify.app/travel.PNG'/>
+        <meta property='og:image' name="linkedin:image" content='https://travelcompaniondeadflight.netlify.app/travel.PNG'/>
       </Helmet>
       <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} />
       
