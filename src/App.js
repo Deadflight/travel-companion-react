@@ -68,8 +68,8 @@ const App = () => {
         <meta property='og:title' content='React Travel Companion'/>
         <meta name="description" content="React Travel Companion" />
         <meta property='og:url' content='https://travelcompaniondeadflight.netlify.app/'/>
-        <meta property='og:image' content='https://travelcompaniondeadflight.netlify.app/travel.PNG'/>
-        <meta property='og:image' name="linkedin:image" content='https://travelcompaniondeadflight.netlify.app/travel.PNG'/>
+        <meta property='og:image' content='https://github.com/Deadflight/travel-companion-react/blob/main/public/travel.PNG'/>
+        <meta property='og:image' name="linkedin:image" content='https://github.com/Deadflight/travel-companion-react/blob/main/public/travel.PNG'/>
       </Helmet>
       <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} />
       
